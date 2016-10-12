@@ -1,0 +1,1 @@
+insert into data_base(`s_name`,`sex`,`age`,`p_name`,`school`,`tel`,`dt_name`,`important`,`dt_date`)values("李明",1,"","","",13191035895,"",0,"")

@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+/* 鍏朵粬 */
+.float_l{float:left;}
+.float_r{float:right;}
+.pointer{cursor:pointer;}
+input{padding:1px}
+*{margin:0 0}
+/* 绔栧瀷 */
+.detailtab{margin-top:10px;font-size:13px;background-color:#5993CA;width:800px;font:"瀹嬩綋"}
+.detailtab .tdt{background-color:#E3EDF6;text-align:right;padding:8px 10px;color:#666;width:100px;font-weight:600}
+.detailtab td{background-color:#FFF;table-layout: fixed;word-wrap:break-word;word-break:break-all;}
+.detailtab .tdf{text-align:left;padding:8px 10px}
+.detailtab th{color:#FFFFFF;text-align:left;font-size: 15px;font-weight: normal;font-family:'寰蒋闆呴粦','Tahoma';padding-left:7px;height:26px;background:url(../images/title.gif) repeat-x; }
+.detailtab .btncell{text-align:right}
+.detailtab .bbtn{text-align:center;background-color:#FFF;padding:3px 10px}
+.detailtab a{text-decoration:none;color:#074689}
+.detailtab a:hover{color:#33CCFF;text-decoration:blink}
+/* 妯瀷 */
+.listtab{margin-top:10px;font:"瀹嬩綋";font-size:14px;background-color:#5993CA;width:800px;text-align:center}
+
+.listtab .title{background:url(../images/title.gif) repeat-x; height: 22px;}
+.listtab .title th{color:#FFFFFF;padding-right:5px;;padding-left:7px;line-height: 27px;vertical-align:middle;height:26px;text-align:left;font-size: 15px;font-weight: normal;font-family:'寰蒋闆呴粦','Tahoma';}
+.listtab .tht{background-color:#E3EDF6;text-align:center;color:#323232;font-weight:600;font-family:'寰蒋闆呴粦','Tahoma';padding-bottom: 4px}
+.listtab tr{background-color:#FFF}
+.listtab td{padding:5px 5px;table-layout: fixed;
+word-wrap:break-word;
+word-break:break-all;}
+.listtab .tdt{background-color:#EFEFEF}
+
+.listtab .btncell{text-align:right}
+.listtab .bbtn{text-align:center;background-color:#FFF;padding:3px 10px}
+.listtab a{text-decoration:none;color:#074689}
+.listtab a:hover{color:#33CCFF;text-decoration:blink}
+/* 鎸夐挳 */
+.btn1{background:url(../images/btn_new.gif) no-repeat;width:70px;height:24px;border:0px;cursor:pointer;font-weight:bold;color:#323232;font-family:'寰蒋闆呴粦','Tahoma';}
+/*.btn1:hover{background:url(../images/btn1_hover.gif) no-repeat;width:61px;height:21px;border:0px;cursor:pointer;color:#fff;opacity:0.7;}*/
+.btn2{background:url(../images/btn2_new.gif) no-repeat;width:101px;height:24px;border:0px;cursor:pointer;font-weight:bold;color:#323232;font-family:'寰蒋闆呴粦','Tahoma';}
+/*.btn2:hover{background:url(../images/btn2_hover.gif) no-repeat;width:101px;height:21px;border:0px;cursor:pointer;color:#fff;opacity:0.7;}*/
+.clipboardbtn{background:url(../images/btn2_default.gif) no-repeat;width:101px;height:21px;border:0px;cursor:pointer}
+.clipboardbtn:hover{background:url(../images/btn2_hover.gif) no-repeat;width:101px;height:21px;border:0px;cursor:pointer;opacity:0.7;}
+/* icons */
+.Wdate{border:0px;cursor:pointer;height:16px;width:16px;background:url('../images/icons/date.gif') no-repeat;margin-left: 4px;}
+.device{border:0px;cursor:pointer;height:16px;width:16px;background:url('../images/icons/device.gif') no-repeat;}
+.people{border:0px;cursor:pointer;height:16px;width:16px;background:url('../images/icons/people.gif') no-repeat;}
+.group{border:0px;cursor:pointer;height:16px;width:16px;background:url('../images/icons/group.gif') no-repeat;}

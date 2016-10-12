@@ -1,0 +1,173 @@
+<?php
+	require_once './common/PHPExcel/Classes/PHPExcel.php';       
+	require_once './common/PHPExcel/Classes/PHPExcel/Writer/Excel5.php';
+	require_once './common/qx.php';
+	require_once './common/yey.php';
+	error_reporting(1);
+	header('content-type:text/html;charset=utf-8');
+	ini_set('memory_limit','1024M');
+	$pwd = $_POST['pwd'];
+	if($pwd != '321456'){
+		die('程序未完全开发好！');
+	}
+	if(empty($_FILES)){
+		die("不允许直接访问本页面！");
+	}
+
+	if ($_FILES["file"]["error"] > 0)
+  	{
+  		echo "Error: " . $_FILES["file"]["error"] . "<br />";
+  	}
+	else
+  	{
+	  //上传目录
+	  $upload = "upload/";
+	  //遍历上传文件夹，将所有文件名放入数组
+	  // $file_names = array();
+	  // $current_dir = opendir($upload);
+	  // $i = 0;
+		// while(($file = readdir($current_dir)) !== false) {
+	 // 		if($file == '.' || $file == '..') {
+	 // 			continue;
+		// 	}
+		// 	else if(is_dir($file)) {
+		// 		echo 'Directory ' . $file . ':<br>';
+		// 	}
+		// 	else{
+		// 		$file_names[$i] = $file;
+		// 		$i++;
+		// 	}
+		// }
+	  // fclose($current_dir);
+		//if(!in_array($_FILES["file"]["name"],$file_names)){
+			$uploadfile = $upload . $_FILES["file"]["name"];
+			if(move_uploaded_file($_FILES["file"]["tmp_name"],$uploadfile)){
+		  		echo "上传成功！";
+		  // 		$name_arr = explode('.', $_FILES['file']['name']);
+		  // 		$extension = $name_arr[1];
+		  // 		if( $extension =='xlsx' ){
+				// 	$objReader = new PHPExcel_Reader_Excel2007();
+				// }else{
+				// 	$objReader = new PHPExcel_Reader_Excel5();
+				// }
+		        $objReader = PHPExcel_IOFactory::createReader('Excel5');//use excel2007 for 2007 format 
+		        $objPHPExcel = $objReader->load($uploadfile);
+		        $sheet_total = $objPHPExcel->getSheetCount();
+		        $str_all = array();
+		        $sql_all = array();
+		        $error_arr = array();
+		        for($sheet_now = 0;$sheet_now < $sheet_total;$sheet_now++){ 
+			        $sheet = $objPHPExcel->getSheet($sheet_now); 
+			        $highestRow = $sheet->getHighestRow();           //取得总行数 
+			        $highestColumnIndex = $sheet->getHighestColumn(); //取得总列数
+			        $highestColumn = PHPExcel_Cell::columnIndexFromString($highestColumnIndex);
+			        $objWorksheet = $objPHPExcel->getActiveSheet();
+			        //echo 'highestRow='.$highestRow;
+			        //echo "<br>";
+			        //echo 'highestColumn='.$highestColumn;
+			        // echo "<br>";
+			        $sql = array();
+			        for ($row = 1;$row <= $highestRow;$row++) 
+			        {
+			            $strs=array();
+			            for ($col = 0;$col < $highestColumn;$col++)
+			            {
+			                $strs[$col] =$sheet->getCellByColumnAndRow($col, $row)->getValue();
+			            }
+			            /**
+			            旧表的格式
+			            $telephone = trim($strs[18]); //第19列是电话
+			            if(is_numeric($telephone)){
+				            $studentName = trim($strs[12]); //第13列是学生姓名
+				            $sex = (trim($strs[13]) == '男')? '1' : '0'; //第14列是性别
+				            $parentName = trim($strs[15]); //第16列是家长姓名
+				            $age = trim($strs[14]); //第15列是年龄
+				            // $parentClass = trim($strs[15]);//
+				            $address = trim($strs[17]); //第18列是住址
+				            $qd = trim($strs[5]); // 第6列是渠道
+				            if(!in_array($qd, $qudao)){
+				            	$error_arr[] = $telephone . '的渠道不符合要求！<br>';
+				            	continue;
+				            }
+				            $school_tmp = trim($strs[16]);
+				            $school = !empty($school_tmp) ? $strs[16] : $strs[6]; //第17列或第7列是学校
+				            if(!in_array($school,$yey)){
+				            	$error_arr[] = $telephone . '的学校不符合要求！<br>';
+				            	continue;
+				            }
+				            $tel_status = trim($strs[3]); //第4列是状态
+				            if(!in_array($tel_status,$all_status)){
+				            	$error_arr[] = $telephone . '的状态不符合要求！<br>';
+				            	continue;
+				            }else{
+				            	$status = array_flip($all_status);
+				            	$tel_status = $status[$tel_status];
+				            }
+				            $dt_name = '历史数据';
+				            $dt_date = 'dt_date';
+				            $fp_status = 1;
+				            $fp_name = 'fp_name';
+				            $fp_date = 'fp_date';
+				            $gzdw = 'gzdw';
+				            if(strlen($strs[2]) == 5 && is_numeric($strs[2])){
+				            	$date = date("Y-n-j",trim(PHPExcel_Shared_Date::ExcelToPHP($strs[2])));
+				            }else{
+								$date_arr = preg_split("/-|\/|\./", $strs[2]);
+								$date = $date_arr[0] . ($date_arr[1] ) . ( $date_arr[2]);
+				            }
+						}else{
+							continue;
+						}
+
+						$sql_1 = 'insert into data_base(`tel`,`s_name`,`sex`,`age`,`dt_name`,`dt_date`,`fp_status`,`fp_name`,`qd`,`p_name`,`school`,`fp_date`,`gzdw`,`tel_status`,`address`) values(';
+				        $sql_1 .= '"' . $telephone . '","' . $studentName . '","' . $sex . '","' . $age . '","' . $dt_name. '","'. $dt_date . '","'. $fp_status . '","' . $fp_name . '","' . $qd . '","' . $parentName . '","' . $school . '","'.$fp_date.'","'.$gzdw. '","'. $tel_status. '","'. $address . '");';
+				        */
+						
+						$telephone = $strs[17];
+						if(strlen($telephone) == 11){
+							$age = $strs[12];
+							$sex = ($strs[11] == '男')? 1 : 0;
+							$studentName = $strs[10];
+							$address = $strs[18];
+							$dt_date =  date("Y-n-j",trim(PHPExcel_Shared_Date::ExcelToPHP($strs[2])));
+							$school = $strs[6];
+							$dt_name = strtolower($strs[5]);
+							$p_name = $strs[15];
+							$qd = '地推';
+							$sql_1 = 'insert into data_base(`tel`,`s_name`,`age`,`sex`,`school`,`p_name`,`dt_name`,`dt_date`,`qudao`,`address`) values(';
+					        $sql_1 .= '"' . $telephone . '","' . $studentName . '","' . $age . '","'  . $sex . '","'. $school . '","'. $p_name . '","' . $dt_name. '","'. $dt_date . '","' . $qd . '","'. $address .'");';
+						}
+							//$sql .= '第' . $row .'行<br>'.$sql_1.'<br>';
+						$sql[$row] = $sql_1;
+			            //$str_all[$sheet_now][] = $strs;
+			        }
+			        //echo $sheet_now , '<br>', $sql;
+			        if(!empty($sql))
+			        	$sql_all[$sheet_now] = $sql;
+				}
+				// echo '<pre>';
+				// print_r($sql_all);
+				foreach ($sql_all as $key => $value) {
+					echo '<br>开始执行第' . ($key+1) . '张表！<br>';
+					$err = 0;
+					$su = 0;
+					foreach ($value as $k => $v) {
+						$result = mysql_query($v);
+						if(!$result){
+							echo '<span style="color:red">第' . $k . '行执行失败！</span>' . $v . '<br>';
+							$err++;
+						}else{
+							//echo '<span style="color:green">第' . $k . '行执行成功！</span><br>';
+							$su++;
+						}
+					}
+					echo '第' . ($key+1) . '张表执行结束！成功' . $su .'条，失败' . $err . '条！';
+				}
+
+			}
+		//}
+		// else{
+		// 	echo "<br>您上传的文件已存在！";
+		// }		  
+  	}
+?>

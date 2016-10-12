@@ -1,0 +1,1 @@
+insert into data_base(`s_name`,`sex`,`age`,`p_name`,`school`,`tel`,`dt_name`,`important`,`dt_date`,`qudao`)values("张三",1,"2.5","张","夏加儿",13333453242,"coco",0,"2016-01-20","地推")

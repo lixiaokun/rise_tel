@@ -1,0 +1,1 @@
+insert into data_base(`s_name`,`sex`,`age`,`p_name`,`school`,`tel`,`dt_name`,`important`,`dt_date`,`qudao`)values("安畅",0,"3.5","长治安畅","康园幼儿园",13191035895,"summer",0,"2016-01-22","地推")

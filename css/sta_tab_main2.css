@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/* 鍏朵粬 */
+.float_l{float:left;}
+.float_r{float:right;}
+.pointer{cursor:pointer;}
+input{padding:1px}
+*{margin:0 0}
+/* 绔栧瀷 */
+.detailtab{margin-top:5px;font-size:12px;background-color:#e1e1e1;width:1200px;font:"瀹嬩綋"}
+.detailtab .tdt{background-color:#f9f3fa ;text-align:right;padding:4px 5px;color:#666;font-weight:600}
+.detailtab .tdtl{background-color:#f9f3fa ;text-align:center;padding:4px 5px;color:#666;font-weight:600}
+.detailtab td{background-color:#FFF;table-layout: fixed;word-wrap:break-word;word-break:break-all;line-height: 20px;vertical-align: middle;}
+.detailtab .tdf{text-align:left;padding:4px 5px}
+.detailtab th{color:#FFFFFF;text-align:left;font-size: 13px;font-weight: normal;font-family:'寰蒋闆呴粦','Tahoma';padding-left:7px;height:26px;background:url(../images/lan_bg.jpg) repeat-x; }
+.detailtab .btncell{text-align:right}
+.detailtab .bbtn{text-align:center;background-color:#FFF;padding:3px 10px}
+.detailtab a{text-decoration:none;color:#074689}
+.detailtab a:hover{color:#33CCFF;text-decoration:blink}
+/* 妯瀷 */
+.listtab{margin-top:10px;font:"瀹嬩綋";font-size:14px;background-color:#e1e1e1;width:1200px;text-align:center}
+.listtab .title{background:url(../images/lan_bg.jpg) repeat-x; height: 22px;}
+.listtab .title th{color:#FFFFFF;padding-right:5px;;padding-left:7px;LINE-HEIGHT: 27px;vertical-align:middle;height:26px;text-align:left;font-size: 15px;font-weight: normal;font-family:'寰蒋闆呴粦','Tahoma';}
+.listtab .tht{background-color:#f9f3fa ;text-align:center;color:#323232;font-weight:600;font-family:'寰蒋闆呴粦','Tahoma';padding-bottom: 4px}
+.listtab tr{background-color:#FFF}
+.listtab td{padding:5px 5px;table-layout: fixed;
+word-wrap:break-word;
+word-break:break-all;}
+.listtab .btncell{text-align:right}
+.listtab .bbtn{text-align:center;background-color:#FFF;padding:3px 10px}
+.listtab a{text-decoration:none;color:#074689}
+.listtab a:hover{color:#33CCFF;text-decoration:blink}
+/* 鎸夐挳 */
+.btn1{background:url(../images/btn_new.gif) no-repeat;width:70px;height:24px;border:0px;cursor:pointer;font-weight:bold;color:#323232;font-family:'寰蒋闆呴粦','Tahoma';}
+
+.btn2{background:url(../images/btn2_new.gif) no-repeat;width:101px;height:24px;border:0px;cursor:pointer;font-weight:bold;color:#323232;font-family:'寰蒋闆呴粦','Tahoma';}
+/*
+.Wdate{border:0px;cursor:pointer;height:16px;width:16px;background:url('../images/date.gif') no-repeat;margin-left: 4px;}
+*/

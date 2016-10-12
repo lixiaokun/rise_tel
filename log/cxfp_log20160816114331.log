@@ -1,0 +1,1 @@
+update data_base set `fp_status`=1,`fp_date`="2016-8-16",`fp_name`="2" where (no=11922 ) and fp_status=1

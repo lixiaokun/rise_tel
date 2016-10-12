@@ -1,0 +1,38 @@
+<html>
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../css/sta_tab.css" rel="stylesheet" type="text/css" />	 
+	<script type="text/javascript" src='../My97DatePicker/WdatePicker.js'></script>
+	<style type="text/css">
+		body{text-align: center;}
+		table{margin: 0 auto;}
+	</style>
+	<title>数据导出</title>
+</head>
+<body>	
+	<form name="myform" action="" method="POST">
+		<table align="center" class="detailtab" cellspacing="1" id="querytable" style="width:80%;">
+			<tr>
+				<th colspan="6">查询</th>
+			</tr>			
+			<tr>
+				<td>学校：<input type="text" name="school"></td>
+			</tr>		
+			<tr>
+				<td class="bbtn" colspan="6">
+					<input class="btn1" onclick="mysumt()" type="button" value="查&nbsp;&nbsp;询" />
+						<input type="reset" id="querybtn" class="btn1" value="重&nbsp;&nbsp;置" />
+				</td>
+			</tr>
+		</table>
+	</form>
+	<table class="listtab" cellspacing="1" align="center" style="width:80%">
+		<tr class="title">
+			<th rowspan="2">学校</th><th rowspan="2">放学时间(夏)</th><th rowspan="2">放学时间(冬)</th><th colspan="2">地推详情</th>
+		</tr>
+
+
+		
+	</table>
+</body>
+</html>

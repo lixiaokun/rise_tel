@@ -1,0 +1,76 @@
+.daohang{ min-width:1024px; width:100%; overflow:hidden;}
+
+.daohang .top_dh{height:75px; background:url(../images/dhbg_01.gif); padding:5px 5px 0 40px; }
+
+.daohang .top_dh .logo{width:40%; font-family:"姹変华缁艰壓浣撶畝"; font-size:24px; font-weight:bold; color:#834d91; text-align:left;}
+
+.daohang .top_dh .top_zidh{width:40%; text-align:right;}
+.daohang .top_dh .zicd a{margin-right:10px;color:#834d91}
+.daohang .top_dh .zicd a:hover{color:#ef8129; text-decoration:underline;}
+.daohang .top_dh .zicd span{padding-left:3px;}
+.daohang .top_dh .zicd img{vertical-align:text-top}
+
+.daohang .top_dh .z_input{margin-top:20px;}
+.daohang .top_dh .z_input input{border:1px solid #ccc5cc; height:16px;}
+
+.daohang .dht{width:100%; height:40px;background:url(../images/dhbg1_03.png) repeat-x;}
+
+/********************/
+/** js鏁堟灉 **/ 
+/********************/
+.daohang .dhlist{margin:0 auto; display:table; padding:0; text-align:center; *width:1024px;}
+.dhlist li {margin:0;float:left;line-height:32px;display:table-cell; font-size:15px; font-weight:bold; color:#6d6d6d; font-family:"寰蒋闆呴粦";}
+.dhlist li a{margin:0 20px;display:block;background-color:transparent;cursor:pointer;font-size:15px;color:#6d6d6d;}
+.dhlist li a:hover{border-bottom:3px solid #8f3694; color:#8f3694;}
+.daohang .dht .quanp5{position:absolute; top:90px; right:0.3%;}
+
+.daohang .dht .quanp3{position:absolute; top:10px; right:0.3%;}
+
+	
+.dhlist li ul {display:none;position:absolute;padding:0;margin:0}
+.dhlist li ul li {background-color:#8d8090;display:block;padding:0; width:auto; line-height:22px; height:22px; font-family:Arial, Helvetica, sans-serif}
+.dhlist li ul li.arrow {background:#8d8090;border-bottom:none; height:5px; margin-top:8px;}
+.dhlist li ul li a {font-size:12px;display:block;border-top:1px dotted #fff;border-bottom:1px dotted #fff; margin:0;color:#fff; font-weight:normal;}
+.dhlist li ul li a:hover {background-color:#8f3694;border-top:1px dotted #fff;border-bottom:1px dotted #fff; color:#fff}
+
+.daohang .weizhi{height:18px; min-width:1024px;  line-height:18px;background:#d1d1d1;}
+
+/*姝ｆ枃閮ㄥ垎*/
+.center{width:1024px; margin:0 auto; padding:0; text-align:left;}
+.center_top,.center_bottom{height:272px; margin:15px 0;}
+.center h3{height:30px; font-size:14px;background:url(../images/lan_bg.jpg) repeat-x; text-align:left; line-height:30px; padding:0 10px; color:#FFF; font-weight:bold}
+.center h3 a{float:right; font-size:12px; color:#fff; font-weight:normal}
+.center h3 img{float:left; margin-top:8px;}
+.c_top1,.c_bot1{width:505px; margin-right:7px;}
+.c_top1 ul,.c_bot1 .tjbb,.c_bot2 .xsbb{height:190px; border:1px solid #c4bdc6; overflow:hidden; padding:15px; margin-bottom: 8px;}
+.center h3 img,.c_top1 li img{padding-right:5px;}
+.c_top1 ul li{height:18px; line-height:18px; overflow:hidden; margin-bottom:10px; *margin-bottom:8px;}
+.c_top1 ul li a{float:left; display:block; width:340px; height:18px;}
+.c_top1 ul li span{float:left; display:block;}
+
+.c_top2,.c_bot2{width:505px; margin-left:7px;}
+.c_top2 .anniu{height:240px; border:1px solid #c4bdc6; overflow:hidden;}
+.c_top2 .anniu img{margin:15px;}
+
+
+table.kehu,table.xiaoshou{border-collapse:collapse;border:1px solid #e1e1e1; height:auto;overflow:hidden;}
+table.kehu th,table.xiaoshou th{border:1px solid #e1e1e1; height:30px; line-height:30px; font-weight:bold; background-color:#f0f0f0;}
+table.kehu td,table.xiaoshou td{border:1px solid #e1e1e1; height:30px; line-height:30px;}
+
+
+.foot{width:100%; background:url(../images/footbg_03.gif) repeat-x; height:30px; text-align:center; line-height:30px; min-width:1024px; margin:0 auto}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
