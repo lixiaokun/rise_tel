@@ -90,10 +90,10 @@
 		$cha = $now - $zx_date;
 		if($cha <= (3*24*3600)){
 			$zx_history .= "<td><a href='javascript:changezxjy({$zx_row[tid]})'>修改咨询纪要</a>";
-			$zx_history .= "<div style='display:none' id='chgzx'>";
-			$zx_history .= '状态：<select name="status" id="status">'.$status_list1.'</select><input class="Wdate" type="hidden" name="again_time" onClick="WdatePicker({dateFmt:\'yyyy-M-d\'})">';
+			$zx_history .= "<div style='display:none' id='chgzx{$zx_row[tid]}'>";
+			// $zx_history .= '状态：<select name="status" id="status">'.$status_list1.'</select><input class="Wdate" type="hidden" name="again_time" onClick="WdatePicker({dateFmt:\'yyyy-M-d\'})">';
 			$zx_history .= "<textarea style='width: 470px; height: 198px;'>" . $zx_row['zxjy'] . "</textarea>";
-			$zx_history .= "<input type='hidden' name='tid' value='{$zx_row[tid]}'><input type='button' id='bczx' value='保存'>";
+			$zx_history .= "<input type='hidden' name='tid' value='{$zx_row[tid]}'><input type='button' class='bczx' value='保存'>";
 			$zx_history .= "</div>";
 			$zx_history .= " | <a href='javascript:telrecord(\"$zx_row[bd_date]\",\"$tel\")'>电话录音</a></td>";
 		}else{
@@ -348,6 +348,7 @@ ht;
 		*/
 		function changezxjy(tid){
 			//tid = tel_bd id
+			$('#chgzx'+tid).find('input[name=tid]').val(tid);
 			layer.open({
 			    type: 1,
 			    title:'修改咨询纪要',
@@ -358,10 +359,10 @@ ht;
 			    shift: 2,
 			    scrollbar: 'false',
 			    shadeClose: true, //开启遮罩关闭
-			    content: $('#chgzx'),
+			    content: $('#chgzx'+tid),
 			});
 		}
-		$('#bczx').click(function(){
+		$('.bczx').click(function(){
 			var tid = zxjy = status = '';
 			tid = $(this).prev().val();
 			zxjy = $(this).parent().find('textarea').val();
