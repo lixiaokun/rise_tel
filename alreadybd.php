@@ -70,18 +70,21 @@
 		$whe[] ="fp_name='{$_arr[fp_name]}'";
 	    $param.="&fp_name={$_arr[fp_name]}";
 	}
+	/**
+	将原来的按照data_base中tel_status筛选改为按照tel_bd中的status筛选
+	*/
 	// if($_arr['daofang'] == 'qxz'){
 		if(isset($_arr["tel_status"])){
 	    	if($_arr['tel_status'] != 'all'){
-	    		$whe[] ="tel_status='{$_arr[tel_status]}'";
-	    		$param.="&tel_status={$_arr[tel_status]}";
+	    		$whe[] ="status='{$_arr[tel_status]}'";
+	    		$param.="&status={$_arr[tel_status]}";
 	    	}else{
-	    		$whe[] ="tel_status!='99'";
-	    		$param.="&tel_status!='99'";
+	    		$whe[] ="status!='99'";
+	    		$param.="&status!='99'";
 	    	}
 	    }else{
-	    	$whe[] ="tel_status!='99'";
-	    	$param.="&tel_status!='99'";
+	    	$whe[] ="status!='99'";
+	    	$param.="&status!='99'";
 	    }
 	// }elseif($_arr['daofang'] == 2){
 	// 	//查询所有已到访
