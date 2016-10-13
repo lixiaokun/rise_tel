@@ -183,7 +183,7 @@
 			}
 		</STYLE>
 		<script language="javascript" type="text/javascript" src="./My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="./common/jquery.js"></script>
+		<script type="text/javascript" src="./common/Tags/js/jquery.js"></script>
 		<script type="text/javascript" src="./common/layer/layer.js"></script>
 
 		<META content="MSHTML 6.00.2900.5848" name=GENERATOR>
@@ -270,7 +270,7 @@ ht;
 		<br>
 		<table align="center"  cellspacing="0">
 			<tr>
-				<td>状　　态：</td><td><select name="status" id='status'><?php echo $status_list;?></select><input class="Wdate" type="hidden" name="again_time" onClick="WdatePicker({dateFmt:'yyyy-M-d'})">
+				<td>状　　态：</td><td><select name="status" id='status'><?php echo $status_list;?></select><input class="Wdate" type="text" name="again_time" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" style="display:none">
 				</td>
 			</tr>
 			<tr>
@@ -278,11 +278,10 @@ ht;
 					<span class="label">标　　签：</span>
 				</td>
 				<td>
-					<div class="plus-tag-add">
-						<input id="" name="" type="text" class="stext" maxlength="20" />
-						<span class="fff"></span>
+					
+					<span class="plus-tag-add">
 						<a href="javascript:void(0);">展开标签</a>
-					</div>
+					</span>
 						<div id="mycard-plus" style="display:none;">
 							<div class="default-tag tagbtn">
 								<div class="clearfix">
@@ -300,6 +299,8 @@ ht;
 								</div>
 							</div>
 						</div><!--mycard-plus end-->
+						<span class="plus-tag tagbtn clearfix" id="myTags"></span>
+
 				</td>
 			</tr>
 			<tr>
@@ -317,14 +318,17 @@ ht;
 	</fieldset>
 	<!--新增咨询-->
 	</body>
+	<script type="text/javascript" src="common/Tags/js/lanrenzhijia.js"></script>
 	<script type="text/javascript">
 		//处理再联系
 		$('#status').change(function(){
 			data = $(this).val();
 			if(data == 8){
-				$(this).next(':hidden').attr('type','text');
+				// $(this).next(':hidden').attr('type','text');
+				$(this).next('input[name=again_time]').css('display','inline');
 			}else{
-				$(this).next('input').attr('type','hidden');
+				// $(this).next('input').attr('type','hidden');
+				$(this).next('input[name=again_time]').css('display','none');
 			}
 			if(data == 2){
 				window.open ('demoap.php?sj=bz&tel=<?php echo $tel,"&bdid=$bdid";?>', 'newwindow', 'height=400, width=800, top=220, left=350, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no')

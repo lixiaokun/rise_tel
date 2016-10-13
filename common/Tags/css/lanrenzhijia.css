@@ -203,9 +203,8 @@ a:hover{color:#3366cc!important;text-decoration:none;}
 .plus-tag a em{display:block;float:left;margin:5px 0 0 8px;width:13px;height:13px;overflow:hidden;background-position:-165px -100px;cursor:pointer;}
 .plus-tag a:hover em{background-position:-168px -64px;}
 /* plus-tag-add */
-.plus-tag-add li{height:56px;position:relative;}
-.plus-tag-add li .label{position:absolute;left:-110px;top:7px;display:block;}
-.plus-tag-add button{float:left;}
-.plus-tag-add a{margin:12px 0 0 20px;display:inline;font-size:16px;background-position:-289px -59px;padding:0 0 0 16px;}
+
+.plus-tag-add a{display:inline;font-size:12px;background-position:-289px -59px;padding-left: 13px;padding-top: 4px;margin-top: 20px}
 .plus-tag-add a.plus{background-position:-289px -96px;}
 #mycard-plus{width:450px;}
+#myTags{margin:10px 0 10px 0;}
