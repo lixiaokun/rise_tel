@@ -39,12 +39,14 @@
 
 	$_arr=isset($_POST["sub"]) ? $_POST : $_GET;
 	//电话状态
-	if($_arr['tel_status'] === 'all')
-		$status_list .= '<option value="all" selected=1>全部</option>';
-	else
-		$status_list .= '<option value="all">全部</option>';
+	// if($_arr['tel_status'] === 'all')
+	// 	$status_list .= '<option value="all" selected=1>全部</option>';
+	// else
+	// 	$status_list .= '<option value="all">全部</option>';
+	if(!isset($_arr['tel_status']))
+		$_arr['tel_status'] = 99;
 	foreach ($all_status as $key => $value) {
-		if($_arr['tel_status'] == $key && is_numeric($_arr['tel_status']))
+		if($_arr['tel_status'] == $key)
 			$status_list .= '<option value="'. $key .'" selected=1>'. $value .'</option>';
 		else
 			$status_list .= '<option value="'. $key .'">'. $value .'</option>';
@@ -67,18 +69,18 @@
 			2016-10-11 修改 将默认排序由未拨打电话改为显示全部电话，按分配日期倒序
 		
     	*/
-	    // if(isset($_arr["tel_status"])){
-	    // 	$whe[] ="tel_status='{$_arr[tel_status]}'";
-	    // 	$param.="&tel_status={$_arr[tel_status]}";
-	    // }else{
-	    // 	$whe[] ="tel_status='all'";
-	    // 	$param.="&tel_status='all'";
-	    // }
-
-    	if(isset($_arr["tel_status"]) && $_arr['tel_status'] != 'all'){
+	    if(isset($_arr["tel_status"])){
 	    	$whe[] ="tel_status='{$_arr[tel_status]}'";
 	    	$param.="&tel_status={$_arr[tel_status]}";
+	    }else{
+	    	$whe[] ="tel_status=99";
+	    	$param.="&tel_status=99";
 	    }
+
+    	// if(isset($_arr["tel_status"]) && $_arr['tel_status'] != 'all'){
+	    // 	$whe[] ="tel_status='{$_arr[tel_status]}'";
+	    // 	$param.="&tel_status={$_arr[tel_status]}";
+	    // }
 
 	    if(!empty($_arr["fp_date_s"])) {
 	        $whe[] ="UNIX_TIMESTAMP(fp_date) >= UNIX_TIMESTAMP('{$_arr[fp_date_s]}')";   

@@ -170,7 +170,7 @@
 		$row = mysql_fetch_row($res);
 		if($row[0]){
 			//处理重复单录入
-			$sql = "update data_base set dt_date='$_POST[dt_date]',fp_status='0',dt_name='$_POST[dt_name]',qudao='$_POST[qudao]' where no='$row[0]'";
+			$sql = "update data_base set dt_date='$_POST[dt_date]',tel_status='99',fp_status='0',dt_name='$_POST[dt_name]',qudao='$_POST[qudao]' where no='$row[0]'";
 			$result = mysql_query($sql);
 			if($result){
 				echo "<script language='javascript' type='text/javascript'>";
