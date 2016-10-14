@@ -8,7 +8,18 @@
 	require './common/qx.php';
 	require './common/yey.php';
 	header('content-type:text/html;charset=utf-8');
-
+	/**
+	遍历标签开始
+	*/
+	$tags_sql = "select id,tag_name from tags_base";
+	$tags_res = mysql_query($tags_sql);
+	$tags_list = '';
+	while ($tags_row = mysql_fetch_assoc($tags_res)) {
+		$tags_list .= "<a value='{$tags_row['id']}' title='{$tags_row['tag_name']}' href='javascript:void(0);''><span>{$tags_row['tag_name']}</span><em></em></a>";
+	}
+	/**
+	遍历标签结束
+	*/
 	/*
 		获取电话详细内容
 	*/
@@ -181,6 +192,7 @@
 			-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 			font:12px/15px "Helvetica Neue",Arial, Helvetica, sans-serif;
 			}
+			.tht{text-align: center}
 		</STYLE>
 		<script language="javascript" type="text/javascript" src="./My97DatePicker/WdatePicker.js"></script>
 		<script type="text/javascript" src="./common/Tags/js/jquery.js"></script>
@@ -218,7 +230,7 @@ echo <<<ht
 		<br>
 		<table align="center"  cellspacing="0" width=1000>
 			<tr class="title">
-				<td colspan="10">
+				<td colspan="11">
 				学员列表	
 				</td>
 			</tr>
@@ -231,6 +243,7 @@ echo <<<ht
 				<th class="tht">英语基础</th>
 				<th class="tht">家庭住址</th>
 				<th class="tht">学校</th>
+				<th class="tht">客户标签</th>
 			</tr>
 			<tr>
 				<td class="tht">{$s_name1}</td>
@@ -241,6 +254,7 @@ echo <<<ht
 				<td class="tht">{$english}</td>
 				<td class="tht">{$address1}</td>
 				<td class="tht">{$school_list}</td>
+				<td class="tht">{$tag}</td>
 			</tr>			
 	</table>
 ht;
@@ -279,23 +293,13 @@ ht;
 				</td>
 				<td>
 					
-					<span class="plus-tag-add">
-						<a href="javascript:void(0);">展开标签</a>
-					</span>
-						<div id="mycard-plus" style="display:none;">
+					
+						<div id="mycard-plus" >
 							<div class="default-tag tagbtn">
 								<div class="clearfix">
-									<a value="-1" title="互联网" href="javascript:void(0);"><span>互联网</span><em></em></a>
-									<a value="-1" title="移动互联网" href="javascript:void(0);"><span>移动互联网</span><em></em></a>
-									<a value="-1" title="it" href="javascript:void(0);"><span>it</span><em></em></a>
-									<a value="-1" title="电子商务" href="javascript:void(0);"><span>电子商务</span><em></em></a>
-									<a value="-1" title="广告" href="javascript:void(0);"><span>广告</span><em></em></a> 
-									<a value="-1" title="互联网" href="javascript:void(0);"><span>互联网</span><em></em></a>
-									<a value="-1" title="移动互联网" href="javascript:void(0);"><span>移动互联网</span><em></em></a>
-									<a value="-1" title="it" href="javascript:void(0);"><span>it</span><em></em></a>
-									<a value="-1" title="电子商务" href="javascript:void(0);"><span>电子商务</span><em></em></a>
-									<a value="-1" title="广告" href="javascript:void(0);"><span>广告</span><em></em></a> 
-
+									<?php
+										echo $tags_list;
+									?>
 								</div>
 							</div>
 						</div><!--mycard-plus end-->
