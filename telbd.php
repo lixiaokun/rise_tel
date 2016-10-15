@@ -28,9 +28,22 @@
 		echo '<script>alert("请勿直接访问本页面！");history.back()</script>';
 		die;
 	}
-	$sql = "select p_name,tel,qudao,gzdw,s_name,sex,age,relation,english,address,school,tel_status from data_base where no=$no";
+	$sql = "select p_name,tel,qudao,gzdw,s_name,sex,age,relation,english,address,school,tel_status,tags_final from data_base where no=$no";
 	$result = mysql_query($sql);
-	list($p_name,$tel,$qudao,$gzdw,$s_name,$sex,$age,$relation,$english,$address,$school,$final_status) = mysql_fetch_row($result);
+	list($p_name,$tel,$qudao,$gzdw,$s_name,$sex,$age,$relation,$english,$address,$school,$final_status,$tag_ids) = mysql_fetch_row($result);
+	/**
+	获取最终的tags开始
+	*/
+	$final_tags = '';
+	$tags_final_sql = "select tag_name from tags_base where id in ($tag_ids)";
+	$tags_final_res = mysql_query($tags_final_sql);
+	while($tags_final_row = mysql_fetch_assoc($tags_final_res)){
+		$final_tags .= $tags_final_row['tag_name'];
+	}
+	/**
+	获取最终的tags结束
+	*/
+
 	$gzdw = !empty($gzdw) ? $gzdw : "<input type='text' name='gzdw'>";
 	$sex_option = '<select name="sex" class="a_bc">';
 	$sex_option .= $sex ? '<option selected value=1>男</option><option value=0>女</option>' : '<option value=1>男</option><option selected value=0>女</option>';
@@ -66,7 +79,7 @@
 	/*
 		获取已有的咨询纪要
 	*/
-	$zx_sql = "select tel_bd.id as tid,tel_bd.zxjy,tel_bd.status,tel_bd.bd_date,tel_bd.demoid,dmzx,rise_user.uname from tel_bd join rise_user on tel_bd.uid=rise_user.id  where telno=$no";
+	$zx_sql = "select tel_bd.id as tid,tel_bd.zxjy,tel_bd.status,tel_bd.bd_date,tel_bd.demoid,dmzx,tag_ids,rise_user.uname from tel_bd join rise_user on tel_bd.uid=rise_user.id  where telno=$no";
 	$zx_res = mysql_query($zx_sql);
 	$zx_history = '';
 	while($zx_row = mysql_fetch_assoc($zx_res)){
@@ -76,7 +89,7 @@
 			else
 				$status_list1 .= "<option value=$key >$value</option>";
 		}
-		$zx_history .= '<tr style="text-align:center">';
+		$zx_history .= '<tr style="text-align:center" class="gz">';
 		$zx_history .= '<td>'. $all_status[$zx_row['status']] .'</td>';
 		$zx_history .= '<td>' . $zx_row['bd_date'] . '</td>';
 		$zx_history .= '<td>' . $zx_row['uname'] . '</td>';
@@ -91,6 +104,16 @@
 		}
 		//$zx_history .= '<td><a href="">'. date('Ymd',strtotime($zx_row['bd_date'])) . $tel .'.wav</a></td>';
 		$zx_history .= '<td>' . $zx_row['dmzx'] .'</td>';
+		/**
+		根据tag_ids获取具体标签
+		*/
+		$t_sql = "select tag_name from tags_base where id in ({$zx_row['tag_ids']})";
+		$t_res = mysql_query($t_sql);
+		$tag_names = '';
+		while($t_row = mysql_fetch_assoc($t_res)){
+			$tag_names .= '<span class="checkoutTags">' .$t_row['tag_name'] . '</span>';
+		}
+		$zx_history .= '<td>' . $tag_names .'</td>';
 		$zx_history .= '<td>' . $ly .'</td>';
 		/**
 		咨询师可修改自己3天内的咨询纪要
@@ -137,6 +160,7 @@
 			'8' => '再联系',
 			'9' => '承诺未上门'
 		*/
+		$tag_ids = implode(',',$_POST['tags']); 
 		if($status_tj == '2'){
 			//承诺上门
 			//获取当前咨询邀约的demoid
@@ -148,7 +172,7 @@
 				echo '<script>alert("请先邀约DEMO！");history.back();</script>';
 				die;
 			}
-			$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`,`demoId`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid','$demoid')";
+			$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`,`demoId`,`tag_ids`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid','$demoid','$tag_ids')";
 		}else{
 			if($status_tj == '8'){
 				$again_time = $_POST['again_time'];
@@ -157,11 +181,20 @@
 					die;
 				}
 				$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`,`again_time`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid','$again_time')";
-			}else{		
-				$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid')";
+			}else{
+				if(!in_array($status_tj, array('0','7')))	
+					$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`,`tag_ids`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid','$tag_ids')";
+				else
+					$tj_sql = "insert into tel_bd(`telno`,`zxjy`,`status`,`bd_date`,`uid`)values('$no','$zxjy_tj','$status_tj','$yy_date','$uid')";
 			}
 		}
-		$up_sql = "update data_base set tel_status=$status_tj where tel='$tel'";
+		/**
+		每次写入tel_bd数据时将tags_id 更新至data_base的tags_final
+		*/
+		if(!in_array($status_tj, array('0','7')))	
+			$up_sql = "update data_base set tags_final='$tag_ids',tel_status=$status_tj where tel='$tel'";
+		else
+			$up_sql = "update data_base set tel_status=$status_tj where tel='$tel'";
 		if(mysql_query($tj_sql) && mysql_query($up_sql)){
 			echo '<script>alert("保存成功！");location.href="mytel.php"</script>';
 		}else{
@@ -193,9 +226,10 @@
 			font:12px/15px "Helvetica Neue",Arial, Helvetica, sans-serif;
 			}
 			.tht{text-align: center}
+			.gz td{border:1px solid whitesmoke;padding:5px 5px;}
 		</STYLE>
 		<script language="javascript" type="text/javascript" src="./My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="./common/Tags/js/jquery.js"></script>
+		<script type="text/javascript" src="./common/jquery.js"></script>
 		<script type="text/javascript" src="./common/layer/layer.js"></script>
 
 		<META content="MSHTML 6.00.2900.5848" name=GENERATOR>
@@ -254,7 +288,7 @@ echo <<<ht
 				<td class="tht">{$english}</td>
 				<td class="tht">{$address1}</td>
 				<td class="tht">{$school_list}</td>
-				<td class="tht">{$tag}</td>
+				<td class="tht">{$final_tags}</td>
 			</tr>			
 	</table>
 ht;
@@ -263,18 +297,19 @@ ht;
 		<!--咨询历史-->
 		<table align="center"   cellspacing="0" id='zx_history'>
 			<tr class="title">
-				<td colspan="7">
+				<td colspan="9">
 				咨询历史
 				</td>
 			</tr>
-			<tr>
+			<tr class='gz'>
 				<th class="tht" style="text-align:center;width:80px">状态</th>
-				<th class="tht" style="text-align: center" width="140px">咨询时间</th>
-				<th class="tht" style="text-align: center" width="100px">顾问</th>
+				<th class="tht" style="text-align: center" width="80px">咨询时间</th>
+				<th class="tht" style="text-align: center" width="50px">顾问</th>
 				<th class="tht" style="text-align: center" width="380px">咨询纪要</th>
-				<th class="tht" style="text-align: center" width="200px">邀约信息</th>
-				<th class="tht" style="text-align: center" width="150px">当面咨询内容</th>
-				<th class="tht" style="text-align: center" width="150px">录音时长</th>
+				<th class="tht" style="text-align: center" width="150px">邀约信息</th>
+				<th class="tht" style="text-align: center" width="300px">当面咨询内容</th>
+				<th class="tht" style="text-align: center" width="150px">标签</th>
+				<th class="tht" style="text-align: center" width="80px">录音时长</th>
 				<th class="tht" style="text-align: center" width="150px">操作</th>
 			</tr>
 			<?php
@@ -314,7 +349,7 @@ ht;
 				<td colspan="2" ><input type='button' id='demoyy' value='邀约DEMO'></td>
 			</tr> -->
 			<tr>
-				<td colspan="2" align="center"><input type="hidden" name="no" value="<?php echo $no;?>"><input type="submit" value="保存" name='bczx' onclick="sub_check()"></td>
+				<td colspan="2" align="center"><input type="hidden" name="no" value="<?php echo $no;?>"><input type="submit" value="保存" name='bczx' onclick="return sub_check()"></td>
 			</tr>
 		</table>
 		</form>
@@ -348,7 +383,10 @@ ht;
 		function sub_check(){
 			var zxjy = status = '';
 			zxjy = $('#zxjy').val();
-			status = $('#status').val()
+			status = $('#status').val();
+			if(status != '99')
+				return true;
+			return false;
 		}
 
 		/**
