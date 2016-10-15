@@ -43,12 +43,11 @@ $(function(){(
 		// 	delTips(b,d)
 		// });
 
-		$(".plus-tag").on("click",function(){
-			var c=$(this).children("a"),b=c.attr("title"),d=c.attr("value");
-			alert(d)
+		$(a).on("click",'em',function(){
+			var c=$(this).parents("a"),b=c.attr("title"),d=c.attr("value");
 			delTips(b,d)
 		});
-		
+
 		hasTips=function(b){
 			var d=$("a",a),c=false;
 			d.each(function(){
@@ -74,7 +73,7 @@ $(function(){(
 			// 	return false
 			// }
 			var b=d?'value="'+d+'"':"";
-			a.append($("<a "+b+' title="'+c+'" href="javascript:void(0);" ><span>'+c+"</span><em></em></a>"));
+			a.append($("<a "+b+' title="'+c+'" href="javascript:void(0);"><span>'+c+"</span><em></em></a>"));
 			a.append($("<input type='hidden' name='tags[]' value="+d+" title="+ c +">"));
 			// searchAjax(c,d,true);
 			return true

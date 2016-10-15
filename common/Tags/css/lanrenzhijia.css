@@ -13,6 +13,7 @@ a:hover{color:#3366cc!important;text-decoration:none;}
 /* tag */
 .default-tag a,.default-tag a span,.plus-tag a,.plus-tag a em,.plus-tag-add a,.checkoutTags{background:url(../images/tagbg.png) no-repeat;}
 .tagbtn a,.checkoutTags{color:#333333;display:block;float:left;height:20px;line-height:20px;overflow:hidden;margin:0 10px 5px 0px;padding:0 10px 0 5px;white-space:nowrap;}
+.checkoutTags{padding: 0 5px}
 /* default-tag */
 .default-tag{padding:5px 0 0 0;}
 .default-tag a{background-position:100% 0;}

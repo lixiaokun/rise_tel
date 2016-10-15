@@ -15,7 +15,7 @@
 	$tags_res = mysql_query($tags_sql);
 	$tags_list = '';
 	while ($tags_row = mysql_fetch_assoc($tags_res)) {
-		$tags_list .= "<a value='{$tags_row['id']}' title='{$tags_row['tag_name']}' href='javascript:void(0);''><span>{$tags_row['tag_name']}</span><em></em></a>";
+		$tags_list .= "<a value='{$tags_row['id']}' title='{$tags_row['tag_name']}' href='javascript:void(0);'><span>{$tags_row['tag_name']}</span><em></em></a>";
 	}
 	/**
 	遍历标签结束
@@ -38,7 +38,7 @@
 	$tags_final_sql = "select tag_name from tags_base where id in ($tag_ids)";
 	$tags_final_res = mysql_query($tags_final_sql);
 	while($tags_final_row = mysql_fetch_assoc($tags_final_res)){
-		$final_tags .= $tags_final_row['tag_name'];
+		$final_tags .= '<span class="checkoutTags">' . $tags_final_row['tag_name'] . '</span>';
 	}
 	/**
 	获取最终的tags结束
@@ -262,7 +262,7 @@ echo <<<ht
 
 		</table>
 		<br>
-		<table align="center"  cellspacing="0" width=1000>
+		<table align="center"  cellspacing="0" width=1200>
 			<tr class="title">
 				<td colspan="11">
 				学员列表	
@@ -279,7 +279,7 @@ echo <<<ht
 				<th class="tht">学校</th>
 				<th class="tht">客户标签</th>
 			</tr>
-			<tr>
+			<tr class="gz">
 				<td class="tht">{$s_name1}</td>
 				<td class="tht">{$relation}</td>
 				<td class="tht">{$all_status[$final_status]}</td>
