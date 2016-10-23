@@ -230,7 +230,12 @@ sos;
 			<tr>
 	            <td  class="tdt" width="10%">日期</td>
 	            <td> 	   			
-	            <input class="Wdate" style="width:150px" type="text" name="date" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" value=<?php echo $_POST['date'];?>>
+	            <input class="Wdate" style="width:150px" type="text" name="date" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" value=<?php 
+	            	if(!empty($_POST['date']))
+	            		echo $_POST['date'];
+	            	else
+	            		echo date('Y-n-j',time());
+	            ?>>
 	            </td>
 	            
 	       </tr>

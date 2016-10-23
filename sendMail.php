@@ -5,7 +5,24 @@
 	$mail       = new PHPMailer();
 	// $body       = file_get_contents('contents.html');
 	// $body       = eregi_replace("[\]",'',$body);
-	$body = 'aaaaaaaaa';
+	$url = "http://localhost/rise_tel/tongji/cc_tj.php";
+	
+	$ch = curl_init();
+	$timeout = 5;
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	//在需要用户检测的网页里需要增加下面两行
+	//curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+	//curl_setopt($ch, CURLOPT_USERPWD, US_NAME.":".US_PWD);
+	$body = curl_exec($ch);
+	curl_close($ch);
+
+	//如果出现中文乱码使用下面代码
+	$body = iconv("gb2312", "utf-8",$body);
+
+	
+
 	//设置smtp参数
 	$mail->IsSMTP();
 	$mail->SMTPAuth  = true;

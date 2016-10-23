@@ -39,10 +39,17 @@
 		else
 			$qd_list .= '<option value="'. $value .'">'. $value .'</option>';
 	}
+	//缺省查询本周
+	$date=date('Y-m-d');  //当前日期
+	$first=1; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
+	$w=date('w',strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
+	$now_start=date('Y-n-j',strtotime("$date -".($w ? $w - $first : 6).' days'));
+	$monday = $now_start;
+	$sunday = date('Y-n-j',strtotime("$now_start + 6 days"));
 
-	if(!empty($_POST['startdate']) && !empty($_POST['enddate']) && strtotime($_POST['startdate']) <= strtotime($_POST['enddate'])){
-		$startdate = $_POST['startdate'];
-		$enddate = $_POST['enddate'];
+	$startdate = !empty($_POST['startdate'])? $_POST['startdate'] :  $monday;
+	$enddate = !empty($_POST['enddate'])? $_POST['enddate'] :  $sunday;
+	if(!empty($startdate) && !empty($enddate) && strtotime($startdate) <= strtotime($enddate)){
 		$qudao = $_POST['qudao'];
 		//渠道咨询量
 		$sql = "select r.uname,b.qudao,count(DISTINCT b.no) as total from data_base as b 
@@ -135,9 +142,9 @@
 				<tr>
 						<td class="tdt" >时间区间</td>
 		             	<td class="tdf" >
-							<input style="width:150px" type="text" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" name="startdate" value="<?php echo $_POST[startdate]?>"/>
+							<input style="width:150px" type="text" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" name="startdate" value="<?php echo $startdate;?>"/>
 						&nbsp;至&nbsp;
-							<input style="width:150px" type="text" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" name="enddate" value="<?php echo $_POST[enddate]?>"/>
+							<input style="width:150px" type="text" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" name="enddate" value="<?php echo $enddate;?>"/>
 		              	</td>
 		              <td class="tdt">人员</td>
 		              <td class="tdf" style="width:15%"><select name='cc'><?php echo $cc_list;?></select></td>
@@ -207,10 +214,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=dt&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=dt&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=dt&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=dt&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=dt&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=dt&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=dt&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=dt&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';
@@ -245,10 +252,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=callin&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=callin&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=callin&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=callin&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=callin&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=callin&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=callin&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=callin&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';
@@ -283,10 +290,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=walkin&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=walkin&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=walkin&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=walkin&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=walkin&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=walkin&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=walkin&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=walkin&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';
@@ -321,10 +328,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=zjs&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=zjs&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=zjs&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=zjs&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=zjs&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=zjs&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=zjs&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=zjs&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';
@@ -359,10 +366,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=hd&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=hd&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=hd&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=hd&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=hd&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=hd&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=hd&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=hd&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';
@@ -397,10 +404,10 @@
 					echo '<tr>';
 					echo '<td>',$i,'</td>';
 					echo '<td>',$key,'</td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=qd&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=qd&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=qd&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
-					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$_POST['startdate'].'&e_date='. $_POST['enddate'] .'&qd=qd&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=qd&class=zxl&fp_name='.$key.'">',$total,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=qd&class=cn&fp_name='.$key.'">',$cn,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=qd&class=sj&fp_name='.$key.'">',$sj,'</a></td>';
+					echo '<td><a target="_blank" href="tj_detail.php?s_date='.$startdate.'&e_date='. $enddate .'&qd=qd&class=gd&fp_name='.$key.'">',$gd,'</a></td>';
 					echo '<td>',$dz,'</td>';
 					echo '<td>',$mz,'</td>';
 					echo '<td>',$zz,'</td>';

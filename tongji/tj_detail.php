@@ -72,7 +72,7 @@
 	}		
 	$sql .= " and b.qudao='$qudao' ";
 	$sql .= " and t.uid='$uid' ";
-	$sql .= " order by UNIX_TIMESTAMP(bd_date) DESC,b.s_name DESC";
+	$sql .= " order by UNIX_TIMESTAMP(t.bd_date) DESC,b.s_name DESC";
 
 	$result = mysql_query($sql);
 	$tds = '';

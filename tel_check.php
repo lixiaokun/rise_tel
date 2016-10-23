@@ -239,7 +239,7 @@
 	background:-webkit-linear-gradient(top, #f5f5f5 5%, #ededed 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#ededed',GradientType=0);
 }
-	.checkoutTags{color:#333333;display:block;float:left;height:20px;line-height:20px;overflow:hidden;margin:0 10px 5px 0px;padding:0 10px 0 5px;white-space:nowrap;font-size: 14px}
+	.checkoutTags{color:#333333;display:block;float:left;height:20px;line-height:20px;overflow:hidden;margin:0 5px 5px 0px;padding:0 5px 0 5px;white-space:nowrap;font-size: 13px;background: #3366cc}
 	.checkoutTags{padding: 0 5px}
 		</style>
 	</head>
@@ -249,7 +249,7 @@
 						<fieldset>
 							<legend>老单再分配</legend>
 						<form action='./tel_check.php' method='get'>
-							最后拨打日期：<input class="Wdate" type="text" name="bd_date_s" onClick="WdatePicker({dateFmt:'yyyy-M-d'})"<?php echo 'value='.$_arr['bd_date_s'];?>>至<input class="Wdate" type="text" name="bd_date_e" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" <?php echo 'value='.$_arr['bd_date_e'];?>>
+							最后拨打日期：<input class="Wdate" size=13 type="text" name="bd_date_s" onClick="WdatePicker({dateFmt:'yyyy-M-d'})"<?php echo 'value='.$_arr['bd_date_s'];?>>至<input class="Wdate" type="text" name="bd_date_e"  size=13 onClick="WdatePicker({dateFmt:'yyyy-M-d'})" <?php echo 'value='.$_arr['bd_date_e'];?>>
 							状态：<select name='tel_status'>
 								<?php
 									echo $status_list;
@@ -260,12 +260,12 @@
 							echo "咨询师：<select name='fp_name'>$cc_list</select>";
 							}
 							?>
-							渠道：<select name='qudao'>
+							<!-- 渠道：<select name='qudao'>
 								<?php
-									echo $qudao_list;
+									//echo $qudao_list;
 								?>
-							</select>
-							年龄：<input type="text" name="age" placeholder='格式：2、1-3、>3' value="<?php echo $_arr['age'];?>">
+							</select> -->
+							年龄：<input type="text" name="age" placeholder='格式：2、1-3、>3' size=15 value="<?php echo $_arr['age'];?>">
 							学校：<?php echo $school_list;?>
 							<input type='submit' value='查询' name='sub'>
 						</form>
