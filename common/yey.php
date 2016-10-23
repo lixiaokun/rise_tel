@@ -86,7 +86,7 @@ $yey_sj = array(
 			"佳美绿洲爱可儿" => array('d' => '17:00','x' => ''),
 			"健乐幼儿园" => array('d' => '17:00(周四三点四十)','x' => ''),
 			"健健幼儿园" => array('d' => '17:00','x' => '17:30'),
-			"八一路小学" => array('d' => '','x' => ''),
+			"八一路小学" => array('d' => '一二年级4点半其他5点5分','x' => ''),
 			"北郊公园" => array('d' => '','x' => ''),
 			"南北广场" => array('d' => '','x' => ''),
 			"友谊小学" => array('d' => '16:50(周四四点十分)','x' => '17:10'),
@@ -151,7 +151,7 @@ $yey_sj = array(
 	);
 
 $dt_name = array(
-	'兼职','Sally','Sweety','joy','cathy','jessica','amy','tina','tracy','kary','alisa','Ann','Sunny','Kristen','Michael','coco','cici','peter','viki','elle','rebecca','linda','fanny','cherry','summer','emily','kevin','susie','hulk','vivian','hanna','sasha','fiona','doris','bella','宝马','袋鼠','必胜客','风筝节','二零一六五一嘉汇','慧鱼','邮政'
+	'兼职','Sally','Sweety','joy','cathy','jessica','amy','tina','tracy','kary','alisa','Ann','Sunny','Kristen','Michael','coco','cici','peter','viki','elle','rebecca','linda','fanny','cherry','summer','emily','kevin','susie','hulk','vivian','hanna','sasha','fiona','doris','bella','liya','宝马','袋鼠','必胜客','风筝节','二零一六五一嘉汇','慧鱼','邮政'
 	);
 $qudao = array('地推','call in','walk in','转介绍','活动','渠道','后台');
 /**
@@ -213,4 +213,5 @@ $uname_record = array(
 		'cici' => '003',
 		'joy' => '004',
 		'Kristen' => '005',
+		'michael' => '000',
 	);
