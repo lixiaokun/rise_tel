@@ -298,11 +298,11 @@
 					echo $tr; echo '<tr ><td colspan="14"  style="text-align:center">'.$page["fpage"].'</td></tr>';
 					if($_SESSION['user_js'] == 1){
 				?>
-				<tr>
-					<td colspan="14"  style="text-align:center"><select name='fp_name'><?php echo $cc_list;?></select>
+				<!-- <tr>
+					<td colspan="14"  style="text-align:center"><select name='fp_name'><?php //echo $cc_list;?></select>
 					<input type="submit" name="fp" value="老单分配">
 					</td>
-				</tr>
+				</tr> -->
 				<?php
 				}
 				?>

@@ -11,8 +11,19 @@
 
 	require './common/qx.php';
 	require './common/yey.php';
-	require './common/double_fpage.php';
+	require './common/fpage.php';
 	
+	// $sql = "select no from data_base where tel_status!='99'";
+	// $res = mysql_query($sql);
+	// while ($row = mysql_fetch_assoc($res)) {
+	// 	$sql1 = "select bd_date from tel_bd where telno={$row[no]} order by UNIX_TIMESTAMP(bd_date) desc limit 1";
+	// 	$res1 = mysql_query($sql1);
+	// 	$row1 = mysql_fetch_row($res1);
+	// 	$insert = "update data_base set bd_date='$row1[0]' where no={$row[no]}";
+	// 	if(!mysql_query($insert))
+	// 		echo $insert,'<br>';
+	// }
+
 	error_reporting(1);
 
 	$_arr=isset($_POST["sub"]) ? $_POST : $_GET;
@@ -43,6 +54,15 @@
 				$status_list .= '<option value="'. $key .'">'. $value .'</option>';
 		}
 	}
+	//学校列表
+	$school_list = '<select name="school"><option value="all">全部</option>';
+	foreach ($yey as $value) {
+		if(trim($_arr['school']) == trim($value))
+			$school_list .= "<option value='$value' selected=1 >$value</option>";
+		else
+			$school_list .= "<option value='$value'>$value</option>";
+	}
+	$school_list .= '</select>';
 	/**
 		处理老单分配  2016年3月5日
 	*/
@@ -63,40 +83,40 @@
 	}
 	$whe=array();       
     $param="";
-    if($_SESSION['user_js'] != '1' && $_SESSION['user_js'] != '4'){
-	    $whe[] ="fp_name='{$_SESSION[uid]}'";
-	    $param.="&fp_name={$_SESSION[uid]}";
-	}elseif(isset($_arr['fp_name']) && strlen($_arr['fp_name'])){
+	if(isset($_arr['fp_name']) && strlen($_arr['fp_name'])){
 		$whe[] ="fp_name='{$_arr[fp_name]}'";
 	    $param.="&fp_name={$_arr[fp_name]}";
 	}
-	/**
-	将原来的按照data_base中tel_status筛选改为按照tel_bd中的status筛选
-	*/
-	// if($_arr['daofang'] == 'qxz'){
-		if(isset($_arr["tel_status"])){
-	    	if($_arr['tel_status'] != 'all'){
-	    		$whe[] ="tel_status='{$_arr[tel_status]}'";
-	    		$param.="&tel_status={$_arr[tel_status]}";
-	    	}else{
-	    		$whe[] ="tel_status!='99'";
-	    		$param.="&tel_status!='99'";
-	    	}
-	    }else{
-	    	$whe[] ="tel_status!='99'";
-	    	$param.="&tel_status!='99'";
-	    }
-	// }elseif($_arr['daofang'] == 2){
-	// 	//查询所有已到访
-	// 	$whe[] ="status in (3,4,5,6)";
-	//     $param.="&tel_status={$_arr[tel_status]}";
 
-	// }else{
-	// 	//查询所有未到访
-	// 	$whe[] ="status not in (3,4,5,6)";
-	//     $param.="&tel_status={$_arr[tel_status]}";
-	// }
-    
+	if(isset($_arr["tel_status"])){
+    	if($_arr['tel_status'] != 'all'){
+    		$whe[] ="tel_status='{$_arr[tel_status]}'";
+    		$param.="&tel_status={$_arr[tel_status]}";
+    	}else{
+    		$whe[] ="tel_status!='99'";
+    		$param.="&tel_status!='99'";
+    	}
+    }else{
+    	$whe[] ="tel_status!='99'";
+    	$param.="&tel_status!='99'";
+    }
+    //年龄
+    if(!empty($_arr['age'])){
+    	if(strstr($_arr['age'], '>')){
+    		$number = str_replace('>', '',$_arr['age']);
+    		$whe[] =" age>'{$number}'";
+	    	$param.="&age={$_arr[age]}";
+    	}elseif(strstr($_arr['age'], '-')){
+    		$number_arr = explode('-', $_arr['age']);
+    		$number_min = $number_arr[0];
+    		$number_max = $number_arr[1];
+    		$whe[] =" age>='{$number_min}' and age<='{$number_max}'";
+	    	$param.="&age={$_arr[age]}";
+		}else{
+			$whe[] =" age='{$_arr[age]}'";
+	    	$param.="&age={$_arr[age]}";
+		}
+    }
 
 
     if(!empty($_arr["bd_date_s"])) {
@@ -112,45 +132,21 @@
         $whe[] ="qudao = '{$_arr[qudao]}'";   
         $param.="&qudao={$_arr[qudao]}";
     }
-    //拨打次数
-    if(!empty($_arr['bd_cs'])){
-    	if(strstr($_arr['bd_cs'], '>')){
-    		$number = str_replace('>', '',$_arr['bd_cs']);
-    		$having ="having count(no)>'{$number}'";
-	    	$param.="&bd_cs={$_arr[bd_cs]}";
-    	}elseif(strstr($_arr['bd_cs'], '-')){
-    		$number_arr = explode('-', $_arr['bd_cs']);
-    		$number_min = $number_arr[0];
-    		$number_max = $number_arr[1];
-    		$having ="having count(no)>='{$number_min}' and count(no)<='{$number_max}'";
-	    	$param.="&bd_cs={$_arr[bd_cs]}";
-		}else{
-			$having ="having count(no)='{$_arr[bd_cs]}'";
-	    	$param.="&bd_cs={$_arr[bd_cs]}";
-		}
+    if(!empty($_arr["school"]) && $_arr['school'] != 'all') {
+        $whe[] ="school = '{$_arr[school]}'";   
+        $param.="&school={$_arr[school]}";
     }
-
     if(empty($whe)){
         $where="where fp_status=1";
-        $uri="alreadybd.php";
+        $uri="tel_check.php";
     }else{
         $where="where fp_status=1 and ".implode(" and ", $whe);
-        $uri="alreadybd.php?".$param;
+        $uri="tel_check.php?".$param;
     }
 
-    $page=double_fpage("tel_bd",'data_base',$where, $uri, "15",$having);
+    $page=fpage('data_base',$where, $uri, "15");
 
-    // $sql = 'SELECT b.`no`,count(distinct no), b.`tel`, b.`s_name`, b.`sex`, b.`age`, b.`important`, b.`dt_name`, b.`dt_date`, b.`fp_status`, b.`fp_name`, b.`qudao`, b.`p_name`, b.`school`, b.`tel_status`,t.`bd_date` FROM `data_base` as b LEFT join tel_bd as t on b.no=t.telno '.$where. " group by no  order by UNIX_TIMESTAMP(bd_date) DESC {$page[limit]} ";
-    //$sql = 'SELECT b.`no`,count(distinct no), b.`tel`, b.`s_name`, b.`sex`, b.`age`, b.`important`, b.`dt_name`, b.`dt_date`, b.`fp_status`, b.`fp_name`, b.`qudao`, b.`p_name`, b.`school`, b.`tel_status`,t.`bd_date` FROM `data_base` as b  right join tel_bd as t on b.no=t.telno '.$where. "   order by UNIX_TIMESTAMP(bd_date) DESC,b.no DESC {$page[limit]} ";
-    // $sql = 'SELECT b.`no`, b.`tel`, b.`s_name`, b.`sex`, b.`age`, b.`important`, b.`dt_name`, b.`dt_date`, b.`fp_status`, b.`fp_name`, b.`qudao`, b.`p_name`, b.`school`, t.`status`,t.`bd_date`,count(b.tel) as bd_cs 
-    // 		FROM `data_base` as b  
-    // 		join tel_bd as t on b.no=t.telno '.$where. " 
-    // 		group by t.telno ". $having ."
-    // 		order by UNIX_TIMESTAMP(bd_date) DESC,bd_cs DESC {$page[limit]} ";
-    $sql = 'SELECT count(t.telno) as bd_cs,t.bd_date,t.status,b.s_name,b.tel,b.school,b.dt_name,b.qudao,b.fp_name,b.no FROM 
-    (select * from tel_bd order by UNIX_TIMESTAMP(bd_date) DESC) as t 
-    join data_base as b on b.no=t.telno 
-     '.$where." group by telno ". $having ." order by id DESC {$page[limit]}";
+    $sql = "select no,tel_status,important,s_name,sex,age,school,tel,qudao,fp_name,tags_final,bd_date from data_base {$where} order by UNIX_TIMESTAMP(bd_date) DESC {$page[limit]}";
     // echo $sql;
 	$result = mysql_query($sql);
 	$tr = '';
@@ -162,15 +158,19 @@
 		$tr .= '<td><input type="checkbox" name="fp_arr[]" value="'. $row['no'] .'"></td>';
 		$tr .= '<td >'. $xh .'</td>';		
 		$tr .= '<td >'. $row['bd_date'] .'</td>';
-		$tr .= '<td ><a target="_blank" href="telbd.php?no='. $row['no'] .'">'. $row['bd_cs'] .'</a></td>';
-		$tr .= '<td >'. $all_status[$row['status']] .'</td>';
+		$t_sql = "select tag_name from tags_base where id in ({$row['tags_final']})";
+		$t_res = mysql_query($t_sql);
+		$tag_names = '';
+		while($t_row = mysql_fetch_assoc($t_res)){
+			$tag_names .= '<span class="checkoutTags">' .$t_row['tag_name'] . '</span>';
+		}
+		$tr .= '<td >'. $tag_names .'</td>';
+		$tr .= '<td >'. $all_status[$row['tel_status']] .'</td>';
 		$tr .= '<td ><a href="telbd.php?no='. $row['no'] .'">'. $row['s_name'] .'</a></td>';
 		$tr .= '<td >'. ($row['sex'] == 1? '男':'女') .'</td>';
 		$tr .= '<td >'. $row['age'] .'</td>';
 		$tr .= '<td >'. $row['school'] .'</td>';
 		$tr .= '<td >'. $row['tel'] .'</td>';
-		$tr .= '<td >'. $row['p_name'] .'</td>';
-		$tr .= '<td >'. $row['dt_name'] .'</td>';
 		$tr .= '<td >'. $row['qudao'] .'</td>';
 		$tr .= '<td >'. $cc[$row['fp_name']] .'</td>';
 		$tr .= '</tr>';
@@ -239,15 +239,17 @@
 	background:-webkit-linear-gradient(top, #f5f5f5 5%, #ededed 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#ededed',GradientType=0);
 }
+	.checkoutTags{color:#333333;display:block;float:left;height:20px;line-height:20px;overflow:hidden;margin:0 10px 5px 0px;padding:0 10px 0 5px;white-space:nowrap;font-size: 14px}
+	.checkoutTags{padding: 0 5px}
 		</style>
 	</head>
 	<body>
 
           			<div id='tj' style='margin:0 auto;width:90%'>
 						<fieldset>
-							<legend>已拨打电话</legend>
+							<legend>老单再分配</legend>
 						<form action='./tel_check.php' method='get'>
-							拨打日期：<input class="Wdate" type="text" name="bd_date_s" onClick="WdatePicker({dateFmt:'yyyy-M-d'})"<?php echo 'value='.$_arr['bd_date_s'];?>>至<input class="Wdate" type="text" name="bd_date_e" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" <?php echo 'value='.$_arr['bd_date_e'];?>>
+							最后拨打日期：<input class="Wdate" type="text" name="bd_date_s" onClick="WdatePicker({dateFmt:'yyyy-M-d'})"<?php echo 'value='.$_arr['bd_date_s'];?>>至<input class="Wdate" type="text" name="bd_date_e" onClick="WdatePicker({dateFmt:'yyyy-M-d'})" <?php echo 'value='.$_arr['bd_date_e'];?>>
 							状态：<select name='tel_status'>
 								<?php
 									echo $status_list;
@@ -263,13 +265,8 @@
 									echo $qudao_list;
 								?>
 							</select>
-							拨打次数：<input type="text" name="bd_cs" placeholder='格式：2、1-3、>3' value="<?php echo $_arr['bd_cs'];?>">
-							<!-- 到访状态：<select name='daofang'>
-										<option value='qxz'>请选择</option>
-										<option value='1' <?php if($_arr['daofang'] == 1) echo 'selected';?>>未到访</option>
-										<option value='2' <?php if($_arr['daofang'] == 2) echo 'selected';?>>已到访</option>
-							</select> -->
-
+							年龄：<input type="text" name="age" placeholder='格式：2、1-3、>3' value="<?php echo $_arr['age'];?>">
+							学校：<?php echo $school_list;?>
 							<input type='submit' value='查询' name='sub'>
 						</form>
 						</fieldset>
@@ -281,16 +278,14 @@
 			      			<th style="width:13%"><input type="button" value="全选" class='classname' onclick="allSelectType();"/><input type="button" value="反选" class='classname' onclick="invertSelectType();"/>
 					</th>
 			                  <TH  scope=col>序号</TH>
-			                  <TH  scope=col>拨打日期</TH>
-			                  <TH  scope=col>拨打次数</TH>
+			                  <TH  scope=col>最后拨打日期</TH>
+			                  <TH  scope=col>标签</TH>
 			                  <TH  scope=col>状态</TH>
 			                  <TH  scope=col>学生姓名</TH>
 			                  <TH  scope=col>性别</TH>
 			                  <TH  scope=col>年龄</TH>
 			                  <TH  scope=col>学校</TH>
 			                  <TH  scope=col>电话号码</TH>
-			                  <TH  scope=col>家长姓名</TH>
-			                  <TH  scope=col>地推人</TH>
 			                  <TH  scope=col>渠道</TH>
 			                  <TH  scope=col>咨询师</TH>
 			                </TR>

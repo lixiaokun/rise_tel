@@ -189,12 +189,12 @@
 			}
 		}
 		/**
-		每次写入tel_bd数据时将tags_id 更新至data_base的tags_final
+		每次写入tel_bd数据时将tags_id 更新至data_base的tags_final 将bd_date 写入data_base的bd_date
 		*/
 		if(!in_array($status_tj, array('0','7')))	
-			$up_sql = "update data_base set tags_final='$tag_ids',tel_status=$status_tj where tel='$tel'";
+			$up_sql = "update data_base set tags_final='$tag_ids',tel_status=$status_tj,bd_date='{$yy_date}' where tel='$tel'";
 		else
-			$up_sql = "update data_base set tel_status=$status_tj where tel='$tel'";
+			$up_sql = "update data_base set tel_status=$status_tj,bd_date='{$yy_date}' where tel='$tel'";
 		if(mysql_query($tj_sql) && mysql_query($up_sql)){
 			echo '<script>alert("保存成功！");location.href="mytel.php"</script>';
 		}else{

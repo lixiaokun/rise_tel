@@ -68,6 +68,8 @@ src="Left.files/bg_left_br.gif"></TD>
 	?>
 	var fun5 = new TreeNode('已拨打电话', 'alreadybd.php', 'tree_node.gif', null, 'tree_node.gif', null);
 	fun1.add(fun5);
+	var ld = new TreeNode('老单筛选', 'tel_check.php', 'tree_node.gif', null, 'tree_node.gif', null);
+	fun1.add(ld);
 	<?php
 	}
 	?>
