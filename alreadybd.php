@@ -100,12 +100,12 @@
 
 
     if(!empty($_arr["bd_date_s"])) {
-        $whe[] ="UNIX_TIMESTAMP(bd_date) >= UNIX_TIMESTAMP('{$_arr[bd_date_s]}')";   
+        $whe[] ="UNIX_TIMESTAMP(t.bd_date) >= UNIX_TIMESTAMP('{$_arr[bd_date_s]}')";   
         $param.="&bd_date_s={$_arr[bd_date_s]}";
     }
 
    	if(!empty($_arr["bd_date_e"])) {
-        $whe[] ="UNIX_TIMESTAMP(bd_date) <= UNIX_TIMESTAMP('{$_arr[bd_date_e]}')";   
+        $whe[] ="UNIX_TIMESTAMP(t.bd_date) <= UNIX_TIMESTAMP('{$_arr[bd_date_e]}')";   
         $param.="&bd_date_e={$_arr[bd_date_e]}";
     }
     if(!empty($_arr["qudao"])) {
