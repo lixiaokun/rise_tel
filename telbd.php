@@ -114,7 +114,15 @@
 			$tag_names .= '<span class="checkoutTags">' .$t_row['tag_name'] . '</span>';
 		}
 		$zx_history .= '<td>' . $tag_names .'</td>';
+/**
+		获取电话录音时长
+*/
+		$lyurl = "telrecord.php?date=" . $zx_row[bd_date] . '&tel=' . $tel .'&action=getly';
+		$ly = file_get_contents($lyurl);
 		$zx_history .= '<td>' . $ly .'</td>';
+/**
+		获取电话录音时长结束
+*/
 		/**
 		咨询师可修改自己3天内的咨询纪要
 		*/

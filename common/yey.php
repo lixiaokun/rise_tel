@@ -151,7 +151,7 @@ $yey_sj = array(
 	);
 
 $dt_name = array(
-	'兼职','Sally','Sweety','joy','cathy','jessica','amy','tina','tracy','kary','alisa','Ann','Sunny','Kristen','Michael','coco','cici','peter','viki','elle','rebecca','linda','fanny','cherry','summer','emily','kevin','susie','hulk','vivian','hanna','sasha','fiona','doris','bella','liya','宝马','袋鼠','必胜客','风筝节','二零一六五一嘉汇','慧鱼','邮政'
+	'兼职','Sally','Sweety','joy','cathy','jessica','amy','tina','tracy','kary','alisa','Ann','Sunny','Kristen','Michael','coco','cici','peter','viki','ella','rebecca','linda','fanny','cherry','summer','emily','kevin','susie','hulk','vivian','hanna','sasha','fiona','doris','bella','liya','宝马','袋鼠','必胜客','风筝节','二零一六五一嘉汇','慧鱼','邮政'
 	);
 $qudao = array('地推','call in','walk in','转介绍','活动','渠道','后台');
 /**

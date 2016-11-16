@@ -64,10 +64,6 @@
 ?>
 <html>
 	<head>
-		
-		<meta http-equiv="Cache-Control" content="no-cache" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="-1" />
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 	    <link rel="stylesheet" href="./css/validationEngine.jquery.css" type="text/css"/>
